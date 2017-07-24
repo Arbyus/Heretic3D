@@ -1,0 +1,11 @@
+.git/
+.vs/
+build/
+x64/
+*.suo
+*.db
+*.opendb
+*.vcxproj.user
+*.tlog
+*.lastbuildstate
+Libs/

@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="source\Maths">
+      <UniqueIdentifier>{f831b683-dc6c-4141-8b0b-ec417080b636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Graphics">
+      <UniqueIdentifier>{adc61265-e47d-44de-9ea3-675a235c9959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Input">
+      <UniqueIdentifier>{a181ac5e-28ee-4a56-8256-91abe408459b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Graphics\Models">
+      <UniqueIdentifier>{bb27a8e0-b16f-4a73-bfca-547be38413f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Graphics\Models\Mesh">
+      <UniqueIdentifier>{d72bf2fc-3234-4f11-9658-3672e9f55846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Graphics\Models\Assimp">
+      <UniqueIdentifier>{214a2575-7172-4fa4-a204-37b07c607b82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Graphics\OpenGL">
+      <UniqueIdentifier>{72b7ed0c-f74d-4e64-ba4b-b3ef3bf19fb1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SourceCode\Maths\MathsStructs.h">
+      <Filter>source\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Maths\MatrixTransforms.h">
+      <Filter>source\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\GraphicsStructs.h">
+      <Filter>source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Input\InputStructs.h">
+      <Filter>source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\Models\Model.h">
+      <Filter>source\Graphics\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\Models\Model_interface.hpp">
+      <Filter>source\Graphics\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\Models\Mesh\Mesh.h">
+      <Filter>source\Graphics\Models\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\Graphics_interface.hpp">
+      <Filter>source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\Shader.h">
+      <Filter>source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\Shader_interface.hpp">
+      <Filter>source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\Graphics.h">
+      <Filter>source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\ImplementationDirector.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\OpenGL\Graphics_OpenGL.hpp">
+      <Filter>source\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\OpenGL\Shader_OpenGL.hpp">
+      <Filter>source\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\Models\Assimp\Model_Assimp.hpp">
+      <Filter>source\Graphics\Models\Assimp</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SourceCode\Graphics\Models\Model.cpp">
+      <Filter>source\Graphics\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Graphics\Models\Mesh\Mesh.cpp">
+      <Filter>source\Graphics\Models\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Graphics\Models\Assimp\Model_Assimp.cpp">
+      <Filter>source\Graphics\Models\Assimp</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Graphics\Shader.cpp">
+      <Filter>source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Graphics\Graphics.cpp">
+      <Filter>source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Graphics\OpenGL\Graphics_OpenGL.cpp">
+      <Filter>source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Graphics\OpenGL\Shader_OpenGL.cpp">
+      <Filter>source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\ImplementationDirector.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
