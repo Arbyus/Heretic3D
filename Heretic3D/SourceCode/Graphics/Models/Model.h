@@ -1,4 +1,5 @@
 #pragma once
+#include "../../config.h"
 #include "Mesh/Mesh.h"
 
 #include <functional>
@@ -13,19 +14,18 @@ namespace Heretic3D
 	{
 	public:
 
-		__declspec( dllexport ) Model( std::shared_ptr<Model_interface> );
+		HERETIC3D Model( std::shared_ptr<Model_interface> );
 
-
-		__declspec( dllexport ) static std::function<std::shared_ptr<Heretic3D::Model>( const std::string& path, const std::string& dire, const int )> CreateModel;
+		HERETIC3D static std::function< std::shared_ptr< Heretic3D::Model >( const std::string& path, const std::string& dire, const int ) > CreateModel;
 
 		// Draws the model, and thus all its meshes
-		__declspec( dllexport ) void Draw( const unsigned int shaderID );
+		HERETIC3D void Draw( const unsigned int shaderID );
 
-		__declspec( dllexport ) std::vector<Mesh> GetMesh( );
-		__declspec( dllexport ) std::vector<Texture> GetTextures( );
-		__declspec( dllexport ) void SetTextures( std::vector<Texture> );
-		__declspec( dllexport ) void LoadModel( const std::string& path, const std::string& dirr );
-		__declspec( dllexport ) void SetupMeshes( );
+		HERETIC3D std::vector<Mesh> GetMesh( );
+		HERETIC3D std::vector<TextureStruct> GetTextures( );
+		HERETIC3D void SetTextures( std::vector<TextureStruct> );
+		HERETIC3D void LoadModel( const std::string& path, const std::string& dirr );
+		HERETIC3D void SetupMeshes( );
 
 	private:
 

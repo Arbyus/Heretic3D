@@ -14,11 +14,14 @@ namespace Heretic3D
 		virtual Vector2<double> GetCursorPositionOnScreen( ) = 0;
 		virtual bool WantsToClose( ) = 0;
 
+		virtual void BeginFrame( ) = 0;
 		virtual void EndFrame( ) = 0;
 
 		virtual void SetKeyCallback( keyCallbackFunc callbackFunc ) = 0;
 
 		virtual unsigned int LoadTexture( const std::string& imagePath ) = 0;
+
+		virtual void Cleanup( ) = 0;
 
 	};
 }

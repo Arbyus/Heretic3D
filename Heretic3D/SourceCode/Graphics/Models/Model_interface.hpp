@@ -14,8 +14,8 @@ namespace Heretic3D
 		virtual void Draw( const unsigned int shaderID ) = 0;
 
 		virtual std::vector<Mesh> GetMesh( ) = 0;
-		virtual std::vector<Texture> GetTextures( ) = 0;
-		virtual void SetTextures( std::vector<Texture> ) = 0;
+		virtual std::vector<TextureStruct> GetTextures( ) = 0;
+		virtual void SetTextures( std::vector<TextureStruct> ) = 0;
 		virtual void LoadModel( const std::string& path, const std::string& dirr ) = 0;
 		virtual void SetupMeshes( ) = 0;
 
@@ -25,7 +25,7 @@ namespace Heretic3D
 		std::vector<Mesh> meshes;
 		std::string dir;
 		std::string directory;
-		std::vector<Texture> textures_loaded;
+		std::vector<TextureStruct> textures_loaded;
 
 	private:
 

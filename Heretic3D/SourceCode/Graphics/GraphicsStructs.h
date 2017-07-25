@@ -18,7 +18,7 @@ namespace Heretic3D
 		Vector2<float> TexCoords;
 	};
 
-	struct Texture 
+	struct TextureStruct
 	{
 		unsigned int id;
 		std::string type;
@@ -29,7 +29,7 @@ namespace Heretic3D
 	{
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
-		std::vector<Texture> textures;
+		std::vector<TextureStruct> textures;
 	};
 
 }

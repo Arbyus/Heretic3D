@@ -26,6 +26,9 @@
     <Filter Include="source\Graphics\OpenGL">
       <UniqueIdentifier>{72b7ed0c-f74d-4e64-ba4b-b3ef3bf19fb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\Graphics\Texture">
+      <UniqueIdentifier>{3600f8cc-c3b0-4825-8895-564f871e58bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Maths\MathsStructs.h">
@@ -73,6 +76,12 @@
     <ClInclude Include="SourceCode\Graphics\Models\Assimp\Model_Assimp.hpp">
       <Filter>source\Graphics\Models\Assimp</Filter>
     </ClInclude>
+    <ClInclude Include="SourceCode\Graphics\Textures\Texture.h">
+      <Filter>source\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\config.h">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceCode\Graphics\Models\Model.cpp">
@@ -98,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="SourceCode\ImplementationDirector.cpp">
       <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Graphics\Textures\Texture.cpp">
+      <Filter>source\Graphics\Texture</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

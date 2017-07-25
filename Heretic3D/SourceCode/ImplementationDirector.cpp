@@ -5,6 +5,7 @@
 #include "Graphics/OpenGL/Graphics_OpenGL.hpp"
 #include "Graphics/Graphics.h"
 #include "Graphics/Shader.h"
+#include "Graphics/Textures/Texture.h"
 #include "Graphics/OpenGL/Shader_OpenGL.hpp"
 
 
@@ -19,16 +20,16 @@ namespace Heretic3D
 			auto assimpObj = std::make_shared<Heretic3D::Model_Assimp>( path, dire );
 
 			auto newModel = std::make_shared<Heretic3D::Model>( assimpObj );
-			
+
 			newModel->SetupMeshes( );
 			graphicsImpl->SetupModel( newModel, shaderID );
 
 			return newModel;
-		} 
-	 
-		static unsigned int OpenGLTextures( const std::string& texturePath )
+		}
+
+		static std::shared_ptr<Heretic3D::Texture> OpenGLTextures( const std::string& texturePath )
 		{
-			return graphicsImpl->LoadTexture( texturePath );
+			return std::make_shared<Heretic3D::Texture>( graphicsImpl->LoadTexture( texturePath ) );
 		}
 
 		static std::shared_ptr<Heretic3D::Shader> OpenGLShaders( const std::string& vertexShader, const std::string& fragmentShader )
@@ -39,7 +40,7 @@ namespace Heretic3D
 
 			return newShader;
 		}
-
+		
 		void SetupAssimp( )
 		{
 			Heretic3D::Model::CreateModel = std::bind( &Heretic3D::AssimpModels, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3 );
@@ -48,8 +49,9 @@ namespace Heretic3D
 		void SetupGraphics( )
 		{
 			graphicsImpl = std::make_shared<Graphics_OpenGL>();
+			
 			Heretic3D::Shader::CreateShader = std::bind( &Heretic3D::OpenGLShaders, std::placeholders::_1, std::placeholders::_2 );
-			Heretic3D::Graphics::CreateTexture = std::bind( &Heretic3D::OpenGLTextures, std::placeholders::_1 );
+			Heretic3D::Texture::CreateTexture = std::bind( &Heretic3D::OpenGLTextures, std::placeholders::_1 );
 		}
 
 
@@ -83,6 +85,11 @@ namespace Heretic3D
 	std::shared_ptr<Graphics> ImplementationDirector::GetGraphicsDevice( )
 	{
 		return std::make_shared<Graphics>(graphicsImpl);
+	}
+
+	std::shared_ptr<Model> ImplementationDirector::GetModel( const std::string & path, const std::string & dire, const int shaderID )
+	{
+		return Heretic3D::Model::CreateModel( path, dire, shaderID );
 	}
 
 }

@@ -4,9 +4,7 @@
 
 namespace Heretic3D
 {
-		
 	decltype( Shader::CreateShader ) Shader::CreateShader;
-	
 	
 	Shader::Shader( std::shared_ptr<Shader_interface> impl )
 	{

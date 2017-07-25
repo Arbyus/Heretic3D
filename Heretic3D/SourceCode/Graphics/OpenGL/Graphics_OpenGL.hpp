@@ -19,6 +19,8 @@ namespace Heretic3D
 	{
 	public:
 
+		Graphics_OpenGL( );
+
 		virtual void Draw( const unsigned int shaderID ) override;
 
 		virtual void SetupModel( std::weak_ptr<Model> modelToSetup, const unsigned int shaderID ) override;
@@ -29,17 +31,22 @@ namespace Heretic3D
 
 		virtual bool WantsToClose( ) override;
 
+		virtual void BeginFrame( ) override;
+
 		virtual void EndFrame( ) override;
 
 		virtual void SetKeyCallback( keyCallbackFunc callbackFunc ) override;
 
 		virtual unsigned int LoadTexture( const std::string& imagePath ) override;
 
+		virtual void Cleanup( ) override;
+
 	private:
 
 		std::map<unsigned int, std::vector< std::weak_ptr<Model> > > m_RenderMapByShaderID;
 		GLFWwindow* m_Window;
-
+		double m_LastTime;
+		float m_DeltaTime;
 	};
 
 }

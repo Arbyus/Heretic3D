@@ -1,9 +1,9 @@
 #pragma once
-#include <functional>
-#include <memory>
+#include "../config.h"
 #include "GraphicsStructs.h"
 
-#undef CreateWindow
+#include <functional>
+#include <memory>
 
 namespace Heretic3D
 {
@@ -15,18 +15,18 @@ namespace Heretic3D
 	{
 	public:
 
-		__declspec( dllexport ) Shader( std::shared_ptr<Shader_interface> );
+		HERETIC3D Shader( std::shared_ptr<Shader_interface> );
 
-		__declspec( dllexport ) static std::function<std::shared_ptr<Shader>( const std::string& vertex, const std::string& fragment )> CreateShader;
+		HERETIC3D static std::function< std::shared_ptr< Shader >( const std::string& vertex, const std::string& fragment )> CreateShader;
 
-		__declspec( dllexport ) void SetShaderValue( const std::string& variableName, const Matrix4x4<float>& newValue );
-		__declspec( dllexport ) void SetShaderValue( const std::string& variableName, const int& newValue );
-		__declspec( dllexport ) void SetShaderValue( const std::string& variableName, const float& newValue );
-		__declspec( dllexport ) void SetShaderValue( const std::string& variableName, const Vector2<float>& newValue );
-		__declspec( dllexport ) void SetShaderValue( const std::string& variableName, const Vector3& newValue );
-		__declspec( dllexport ) void SetShaderValue( const std::string& variableName, const Vector4<float>& newValue );
-		__declspec( dllexport ) void SetShaderValue( const std::string& variableName, const Matrix3x3& newValue );
-		__declspec( dllexport ) unsigned int GetShaderID( );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const Matrix4x4<float>& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const int& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const float& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const Vector2<float>& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const Vector3& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const Vector4<float>& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const Matrix3x3& newValue );
+		HERETIC3D unsigned int GetShaderID( );
 
 	private:
 

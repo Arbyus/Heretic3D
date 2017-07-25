@@ -6,7 +6,7 @@
 namespace Heretic3D
 {
 
-	decltype( Model::CreateModel )Model::CreateModel;
+	decltype ( Model::CreateModel ) Model::CreateModel;
 
 	Model::Model( std::shared_ptr<Model_interface> impl )
 	{
@@ -34,13 +34,13 @@ namespace Heretic3D
 		return m_Pimpl->GetMesh( );
 	}
 
-	std::vector<Texture> Model::GetTextures( )
+	std::vector<TextureStruct> Model::GetTextures( )
 	{
 		return m_Pimpl->GetTextures( );
 
 	}
 
-	void Model::SetTextures( std::vector<Texture> newVec )
+	void Model::SetTextures( std::vector<TextureStruct> newVec )
 	{
 		m_Pimpl->SetTextures( newVec );
 	}

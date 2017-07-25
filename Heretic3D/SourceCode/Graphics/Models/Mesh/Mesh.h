@@ -1,4 +1,5 @@
 #pragma once
+#include "../../../config.h"
 #include "../../GraphicsStructs.h"
 
 #include <vector>
@@ -16,14 +17,14 @@ namespace Heretic3D
 	{
 	public:
 
-		__declspec( dllexport ) Mesh( const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<Texture>& textures );
-		__declspec( dllexport ) ~Mesh( );
+		HERETIC3D Mesh( const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<TextureStruct>& textures );
+		HERETIC3D ~Mesh( );
 
-		__declspec( dllexport ) std::vector<Texture> GetTextures( );
-		__declspec( dllexport ) void SetTextures( const std::vector<Texture>& texturesToSet );
+		HERETIC3D std::vector<TextureStruct> GetTextures( );
+		HERETIC3D void SetTextures( const std::vector<TextureStruct>& texturesToSet );
 		
-		__declspec( dllexport ) BufferInformation& GetBufferInformation( );
-		__declspec( dllexport ) ModelPack& GetModelInformation( );
+		HERETIC3D BufferInformation& GetBufferInformation( );
+		HERETIC3D ModelPack& GetModelInformation( );
 
 	private:
 

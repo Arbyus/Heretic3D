@@ -1,27 +1,24 @@
-//#pragma once
-//
-//#include <functional>
-//#include <memory>
-//
-//namespace Heretic3D
-//{
-//
-//	class Texture_interface;
-//
-//	class Texture
-//	{
-//	public:
-//
-//		Texture( std::shared_ptr<Texture_interface> );
-//
-//		static std::function<std::shared_ptr<Heretic3D::Texture>( const std::string& imagePath )> CreateTexture;
-//
-//		void LoadTexture( );
-//
-//
-//	private:
-//
-//		std::shared_ptr<Texture_interface> m_Pimpl;
-//	};
-//
-//}
+#pragma once
+#include "../../config.h"
+
+#include <functional>
+#include <memory>
+
+namespace Heretic3D
+{
+	class Texture
+	{
+	public:
+
+		HERETIC3D static std::function< std::shared_ptr< Texture >( const std::string& texturePath ) > CreateTexture;
+
+		HERETIC3D Texture( const unsigned int textureID );
+
+		HERETIC3D unsigned int GetTextureID( );
+
+	private:
+
+		unsigned int m_ID;
+	};
+
+}

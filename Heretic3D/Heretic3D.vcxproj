@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\config.h" />
     <ClInclude Include="SourceCode\Graphics\Graphics.h" />
     <ClInclude Include="SourceCode\Graphics\GraphicsStructs.h" />
     <ClInclude Include="SourceCode\Graphics\Graphics_interface.hpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="SourceCode\Graphics\OpenGL\Shader_OpenGL.hpp" />
     <ClInclude Include="SourceCode\Graphics\Shader.h" />
     <ClInclude Include="SourceCode\Graphics\Shader_interface.hpp" />
+    <ClInclude Include="SourceCode\Graphics\Textures\Texture.h" />
     <ClInclude Include="SourceCode\ImplementationDirector.h" />
     <ClInclude Include="SourceCode\Input\InputStructs.h" />
     <ClInclude Include="SourceCode\Maths\MathsStructs.h" />
@@ -43,6 +45,7 @@
     <ClCompile Include="SourceCode\Graphics\OpenGL\Graphics_OpenGL.cpp" />
     <ClCompile Include="SourceCode\Graphics\OpenGL\Shader_OpenGL.cpp" />
     <ClCompile Include="SourceCode\Graphics\Shader.cpp" />
+    <ClCompile Include="SourceCode\Graphics\Textures\Texture.cpp" />
     <ClCompile Include="SourceCode\ImplementationDirector.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

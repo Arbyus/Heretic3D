@@ -24,11 +24,20 @@ namespace Heretic3D
 		void key_callback( GLFWwindow* window, int key, int scancode, int action, int mods )
 		{
 			//the value of our keypresses match glfw
+			if ( !m_OnKeyPress )
+			{
+				throw std::exception( "Key callback function not specified" );
+			}
+
+
 			m_OnKeyPress( static_cast<KeyInput>(key), static_cast<KeyAction>( action ) );
 		}
 	}
 
-
+	Graphics_OpenGL::Graphics_OpenGL( )
+	{
+		m_LastTime = glfwGetTime();
+	}
 
 	void Graphics_OpenGL::Draw( const unsigned int shaderID )
 	{
@@ -168,10 +177,21 @@ namespace Heretic3D
 
 	bool Graphics_OpenGL::WantsToClose( )
 	{
-		const auto escapePressed = glfwGetKey( m_Window, GLFW_KEY_ESCAPE ) != GLFW_PRESS;
-		const auto windowShouldClose = glfwWindowShouldClose( m_Window ) == 0;
+		const auto escapePressed = glfwGetKey( m_Window, GLFW_KEY_ESCAPE ) == GLFW_PRESS;
+		const auto windowShouldClose = glfwWindowShouldClose( m_Window ) != 0;
 
-		return escapePressed && windowShouldClose;
+		return escapePressed || windowShouldClose;
+	}
+
+	void Graphics_OpenGL::BeginFrame( )
+	{
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+		double currentTime = glfwGetTime( );
+
+		m_DeltaTime = float( currentTime - m_LastTime );
+
+		m_LastTime = currentTime;
 	}
 
 	void Graphics_OpenGL::EndFrame( )
@@ -191,8 +211,9 @@ namespace Heretic3D
 	
 		int width, height;
 		unsigned char* image;
+		int comp;
 
-		image = stbi_load( imagePath.c_str( ), &width, &height, 0, 0 );
+		image = stbi_load( imagePath.c_str( ), &width, &height, &comp, STBI_rgb_alpha );
 
 		GLuint textureID;
 
@@ -212,16 +233,30 @@ namespace Heretic3D
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 
-			// Specify the texture specification
-			glTexImage2D( GL_TEXTURE_2D, 				// Type of texture
-				0,				// Pyramid level (for mip-mapping) - 0 is the top level
-				GL_RGBA,	// Internal pixel format to use. Can be a generic type like GL_RGB or GL_RGBA, or a sized type
-				width,	// Image width
-				height,	// Image height
-				0,				// Border width in pixels (can either be 1 or 0)
-				GL_RGBA,	// Format of image pixel data
-				GL_UNSIGNED_BYTE,		// Image data type
-				image );			// The actual image data itself
+			if ( comp == 3 )
+			{
+				glTexImage2D( GL_TEXTURE_2D, 
+					0,
+					GL_RGB, 
+					width, 
+					height, 
+					0, 
+					GL_RGB,
+					GL_UNSIGNED_BYTE, 
+					image );
+			}
+			else if ( comp == 4 )
+			{
+				glTexImage2D( GL_TEXTURE_2D, 
+					0, 
+					GL_RGBA, 
+					width,
+					height,
+					0,
+					GL_RGBA,
+					GL_UNSIGNED_BYTE, 
+					image );
+			}
 		}
 		else
 		{
@@ -234,6 +269,9 @@ namespace Heretic3D
 		return textureID;
 	}
 
-
+	void Graphics_OpenGL::Cleanup( )
+	{
+		glfwTerminate( );
+	}
 
 }

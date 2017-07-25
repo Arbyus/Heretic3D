@@ -6,8 +6,6 @@ namespace Heretic3D
 {
 		
 	decltype( Graphics::CreateGraphicsImplementation ) Graphics::CreateGraphicsImplementation;
-	decltype( Graphics::CreateTexture ) Graphics::CreateTexture;
-	
 	
 	Graphics::Graphics( std::shared_ptr<Graphics_interface> impl )
 	{
@@ -39,6 +37,11 @@ namespace Heretic3D
 		return m_Pimpl->WantsToClose( );
 	}
 
+	void Graphics::BeginFrame( )
+	{
+		m_Pimpl->BeginFrame( );
+	}
+
 	void Graphics::EndFrame( )
 	{
 		m_Pimpl->EndFrame( );
@@ -52,6 +55,11 @@ namespace Heretic3D
 	unsigned int Graphics::LoadTexture( const std::string & imagePath )
 	{
 		return m_Pimpl->LoadTexture( imagePath );
+	}
+
+	void Graphics::Cleanup( )
+	{
+		m_Pimpl->Cleanup( );
 	}
 
 }

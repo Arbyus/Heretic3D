@@ -5,6 +5,7 @@
 #include <assimp/postprocess.h>
 
 #include "../../Graphics.h"
+#include "../../Textures/Texture.h"
 
 #undef LoadImage
 
@@ -23,12 +24,12 @@ namespace Heretic3D
 
 	void Model_Assimp::SetupMeshes( )
 	{
-		std::vector<Texture> textures;
+		std::vector<TextureStruct> textures;
 
 		for ( int i = 0; i < texturesStrings.size( ); ++i )
 		{
-			Texture texture;
-			texture.id = Heretic3D::Graphics::CreateTexture( dir + "/" + texturesStrings[ i ] );
+			TextureStruct texture;
+			texture.id = Heretic3D::Texture::CreateTexture( dir + "/" + texturesStrings[ i ] )->GetTextureID();
 			texture.type = aiTextureType_DIFFUSE;
 			texture.path = texturesStrings[ i ].c_str( );
 			textures.push_back( texture );
@@ -72,12 +73,12 @@ namespace Heretic3D
 		return meshes;
 	}
 
-	std::vector<Texture> Model_Assimp::GetTextures( )
+	std::vector<TextureStruct> Model_Assimp::GetTextures( )
 	{
 		return meshes[ 0 ].GetTextures( );
 	}
 
-	void Model_Assimp::SetTextures( std::vector<Texture> newVec )
+	void Model_Assimp::SetTextures( std::vector<TextureStruct> newVec )
 	{
 		meshes[ 0 ].SetTextures( newVec );
 	}
@@ -105,7 +106,7 @@ namespace Heretic3D
 		// Data to fill
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
-		std::vector<Texture> textures;
+		std::vector<TextureStruct> textures;
 
 		// Walk through each of the mesh's vertices
 		for ( unsigned int i = 0; i < mesh->mNumVertices; i++ )

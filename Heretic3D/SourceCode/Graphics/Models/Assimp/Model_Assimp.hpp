@@ -28,8 +28,8 @@ namespace Heretic3D
 		virtual void Draw( const unsigned int shaderID ) override;
 
 		virtual std::vector<Mesh> GetMesh( ) override;
-		virtual std::vector<Texture> GetTextures( ) override;
-		virtual void SetTextures( std::vector<Texture> ) override;
+		virtual std::vector<TextureStruct> GetTextures( ) override;
+		virtual void SetTextures( std::vector<TextureStruct> ) override;
 		virtual void LoadModel( const std::string& path, const std::string& dirr ) override;
 		virtual void SetupMeshes( ) override;
 
