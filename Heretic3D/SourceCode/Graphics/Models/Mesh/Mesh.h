@@ -22,7 +22,9 @@ namespace Heretic3D
 
 		HERETIC3D std::vector<TextureStruct> GetTextures( );
 		HERETIC3D void SetTextures( const std::vector<TextureStruct>& texturesToSet );
-		
+		HERETIC3D void SetBufferInformation( const BufferInformation& bufferInfo );
+
+
 		HERETIC3D BufferInformation& GetBufferInformation( );
 		HERETIC3D ModelPack& GetModelInformation( );
 

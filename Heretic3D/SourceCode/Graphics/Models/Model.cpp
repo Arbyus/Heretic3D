@@ -18,10 +18,34 @@ namespace Heretic3D
 		m_Pimpl->SetupMeshes( );
 	}
 
-	// Draws the model, and thus all its meshes
-	void Model::Draw( const unsigned int shaderID )
+	void Model::SetPosition( const Vector3<>& newPosition )
 	{
-		m_Pimpl->Draw( shaderID );
+		m_Pimpl->SetPosition( newPosition );
+	}
+
+	void Model::SetRotation( const Vector3<>& newRotation )
+	{
+		m_Pimpl->SetRotation( newRotation );
+	}
+
+	void Model::SetScale( const Vector3<>& newScale )
+	{
+		m_Pimpl->SetScale( newScale );
+	}
+
+	void Model::SetShader( std::weak_ptr<Shader> newShader )
+	{
+		m_Pimpl->SetShader( newShader );
+	}
+
+	std::weak_ptr<Shader> Model::GetShader( )
+	{
+		return m_Pimpl->GetShader( );
+	}
+
+	HERETIC3D void Model::SetShaderVars( )
+	{
+		m_Pimpl->SetShaderVars( );
 	}
 
 	void Model::LoadModel( const std::string& path, const std::string& dirr )
@@ -29,7 +53,7 @@ namespace Heretic3D
 		m_Pimpl->LoadModel( path, dirr );
 	}
 
-	std::vector<Mesh> Model::GetMesh( )
+	std::vector<Mesh>& Model::GetMesh( )
 	{
 		return m_Pimpl->GetMesh( );
 	}

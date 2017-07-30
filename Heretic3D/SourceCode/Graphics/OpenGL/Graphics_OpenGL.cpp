@@ -24,13 +24,11 @@ namespace Heretic3D
 		void key_callback( GLFWwindow* window, int key, int scancode, int action, int mods )
 		{
 			//the value of our keypresses match glfw
-			if ( !m_OnKeyPress )
+			if ( m_OnKeyPress )
 			{
-				throw std::exception( "Key callback function not specified" );
+				m_OnKeyPress( static_cast<KeyInput>( key ), static_cast<KeyAction>( action ) );
 			}
 
-
-			m_OnKeyPress( static_cast<KeyInput>(key), static_cast<KeyAction>( action ) );
 		}
 	}
 
@@ -39,28 +37,27 @@ namespace Heretic3D
 		m_LastTime = glfwGetTime();
 	}
 
-	void Graphics_OpenGL::Draw( const unsigned int shaderID )
+	void Graphics_OpenGL::Draw( const unsigned int /*shaderID*/ )
 	{
-		const auto& renderList = m_RenderMapByShaderID.at( shaderID );
-
-		for ( auto& model : renderList )
+		for ( auto& model : m_RenderList )
 		{
+			model.lock( )->SetShaderVars( );
+			auto shader = model.lock( )->GetShader( );
+
+			glUseProgram( shader.lock()->GetShaderID() );
+
 			for ( auto& mesh : model.lock( )->GetMesh( ) )
 			{
 
-				auto buffInfo = mesh.GetBufferInformation( );
-				auto modelInfo = mesh.GetModelInformation( );
+				auto& buffInfo = mesh.GetBufferInformation( );
+				auto& modelInfo = mesh.GetModelInformation( );
 
-				// Bind appropriate textures
-				GLuint diffuseNr = 1;
-				GLuint specularNr = 1;
 				for ( GLuint i = 0; i < modelInfo.textures.size( ); i++ )
 				{
-					glActiveTexture( GL_TEXTURE0 + i ); // Active proper texture unit before binding
-														// Retrieve texture number (the N in diffuse_textureN)
-														// Now set the sampler to the correct texture unit
-					glUniform1i( glGetUniformLocation( shaderID, "diffuseTexture" ), i );
-					// And finally bind the texture
+					glActiveTexture( GL_TEXTURE0 + i );
+
+					glUniform1i( glGetUniformLocation( shader.lock( )->GetShaderID( ), "diffuseTexture" ), i );
+
 					glBindTexture( GL_TEXTURE_2D, model.lock( )->GetTextures( )[ i ].id );
 				}
 				// Draw mesh
@@ -78,16 +75,18 @@ namespace Heretic3D
 		}
 	}
 
-	void Graphics_OpenGL::SetupModel( std::weak_ptr<Model> modelToSetup, const unsigned int shaderID )
+	void Graphics_OpenGL::SetupModel( std::weak_ptr<Model> modelToSetup, std::weak_ptr<Shader> shader )
 	{
+		modelToSetup.lock( )->SetShader( shader );
+
 		for ( auto& mesh : modelToSetup.lock( )->GetMesh( ) )
 		{
 
-			auto buffInfo = mesh.GetBufferInformation( );
-			auto modelInfo = mesh.GetModelInformation( );
+			auto& buffInfo = mesh.GetBufferInformation( );
+			auto& modelInfo = mesh.GetModelInformation( );
 
 			glGenVertexArrays( 1, &buffInfo.vAO );
-			glGenBuffers( 1, &buffInfo.vBO );
+			glGenBuffers( 1, &buffInfo.vBO ); 
 			glGenBuffers( 1, &buffInfo.eBO );
 
 			glBindVertexArray( buffInfo.vAO );
@@ -100,7 +99,7 @@ namespace Heretic3D
 
 			glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, buffInfo.eBO );
 			glBufferData( GL_ELEMENT_ARRAY_BUFFER, modelInfo.indices.size( ) * sizeof( GLuint ), &modelInfo.indices[ 0 ], GL_STATIC_DRAW );
-
+			 
 			// Set the vertex attribute pointers
 			// Vertex Positions
 			glEnableVertexAttribArray( 0 );
@@ -114,15 +113,8 @@ namespace Heretic3D
 
 			glBindVertexArray( 0 );
 		}
-
-		if ( m_RenderMapByShaderID.find( shaderID ) == m_RenderMapByShaderID.end( ) )
-		{
-			m_RenderMapByShaderID.insert( std::pair<unsigned int, std::vector< std::weak_ptr<Model> > >( shaderID, { modelToSetup } ) );
-		}
-		else
-		{
-			m_RenderMapByShaderID.at( shaderID ).push_back( modelToSetup );
-		}
+		
+		m_RenderList.push_back( modelToSetup );
 
 	}
 
@@ -135,8 +127,8 @@ namespace Heretic3D
 			return -1;
 		}
 		glfwWindowHint( GLFW_SAMPLES, 4 );
-		glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3 );
-		glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 3 );
+		glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 4 );
+		glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 5 );
 		glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 
 		GLFWmonitor* monitor = glfwGetPrimaryMonitor( );
@@ -190,15 +182,18 @@ namespace Heretic3D
 		double currentTime = glfwGetTime( );
 
 		m_DeltaTime = float( currentTime - m_LastTime );
-
+		 
 		m_LastTime = currentTime;
+
+		glClearColor( 0.5f, 0.5f, 0.5f, 1.0f );
+
 	}
 
 	void Graphics_OpenGL::EndFrame( )
 	{
 		// Swap buffers
 		glfwSwapBuffers( m_Window );
-		glfwPollEvents( );
+		glfwPollEvents( ); 
 	}
 
 	void Graphics_OpenGL::SetKeyCallback( keyCallbackFunc callbackFunc )
@@ -226,8 +221,8 @@ namespace Heretic3D
 			glBindTexture( GL_TEXTURE_2D, textureID );
 
 			// Set texture clamping method
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 
 			// Set texture interpolation method to use linear interpolation (no MIPMAPS)
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -272,6 +267,52 @@ namespace Heretic3D
 	void Graphics_OpenGL::Cleanup( )
 	{
 		glfwTerminate( );
+	}
+
+	Matrix4x4<> Graphics_OpenGL::GetPerspectiveMatrix( const float & fovy, const float & aspectRatio, const float & nearPlane, const float & farPlane )
+	{
+		const auto glmMat = glm::perspective( fovy, aspectRatio, nearPlane, farPlane );
+
+		Matrix4x4<> returnVal(
+		{ glmMat[ 0 ][ 0 ], glmMat[ 0 ][ 1 ], glmMat[ 0 ][ 2 ], glmMat[ 0 ][ 3 ] },
+		{ glmMat[ 1 ][ 0 ], glmMat[ 1 ][ 1 ], glmMat[ 1 ][ 2 ], glmMat[ 1 ][ 3 ] },
+		{ glmMat[ 2 ][ 0 ], glmMat[ 2 ][ 1 ], glmMat[ 2 ][ 2 ], glmMat[ 2 ][ 3 ] },
+		{ glmMat[ 3 ][ 0 ], glmMat[ 3 ][ 1 ], glmMat[ 3 ][ 2 ], glmMat[ 3 ][ 3 ] }
+		);
+
+		return returnVal;
+	}
+
+	Matrix4x4<> Graphics_OpenGL::GetLookAtMatrix( const Vector3<> & eyePos, const Vector3<> & centerPos, const Vector3<> & upPos )
+	{
+		const auto glmMat = glm::lookAt(
+			glm::vec3( eyePos.x, eyePos.y, eyePos.z ),
+			glm::vec3( centerPos.x, centerPos.y, centerPos.z ),
+			glm::vec3( upPos.x, upPos.y, upPos.z )
+		);
+
+		Matrix4x4<> returnVal(
+		{ glmMat[ 0 ][ 0 ], glmMat[ 0 ][ 1 ], glmMat[ 0 ][ 2 ], glmMat[ 0 ][ 3 ] },
+		{ glmMat[ 1 ][ 0 ], glmMat[ 1 ][ 1 ], glmMat[ 1 ][ 2 ], glmMat[ 1 ][ 3 ] },
+		{ glmMat[ 2 ][ 0 ], glmMat[ 2 ][ 1 ], glmMat[ 2 ][ 2 ], glmMat[ 2 ][ 3 ] },
+		{ glmMat[ 3 ][ 0 ], glmMat[ 3 ][ 1 ], glmMat[ 3 ][ 2 ], glmMat[ 3 ][ 3 ] }
+		);
+
+		return returnVal;
+	}
+
+	Matrix4x4<> Graphics_OpenGL::GetOrthographicMatrix( const float & left, const float & right, const float & bottom, const float & top, const float & nearPlane, const float & farPlane )
+	{
+		const auto glmMat = glm::ortho( left, right, bottom, top, nearPlane, farPlane );
+
+		Matrix4x4<> returnVal(
+		{ glmMat[ 0 ][ 0 ], glmMat[ 0 ][ 1 ], glmMat[ 0 ][ 2 ], glmMat[ 0 ][ 3 ] },
+		{ glmMat[ 1 ][ 0 ], glmMat[ 1 ][ 1 ], glmMat[ 1 ][ 2 ], glmMat[ 1 ][ 3 ] },
+		{ glmMat[ 2 ][ 0 ], glmMat[ 2 ][ 1 ], glmMat[ 2 ][ 2 ], glmMat[ 2 ][ 3 ] },
+		{ glmMat[ 3 ][ 0 ], glmMat[ 3 ][ 1 ], glmMat[ 3 ][ 2 ], glmMat[ 3 ][ 3 ] }
+		);
+
+		return returnVal;
 	}
 
 }

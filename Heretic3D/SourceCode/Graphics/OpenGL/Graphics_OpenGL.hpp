@@ -4,8 +4,9 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <map>
+#include <list>
 #include <vector>
+
 
 // GL Includes
 #include "../Graphics_interface.hpp"
@@ -23,7 +24,7 @@ namespace Heretic3D
 
 		virtual void Draw( const unsigned int shaderID ) override;
 
-		virtual void SetupModel( std::weak_ptr<Model> modelToSetup, const unsigned int shaderID ) override;
+		virtual void SetupModel( std::weak_ptr<Model> modelToSetup, std::weak_ptr<Shader> shader ) override;
 
 		virtual int CreateWindow( ) override;
 
@@ -41,9 +42,13 @@ namespace Heretic3D
 
 		virtual void Cleanup( ) override;
 
+		virtual Matrix4x4<> GetPerspectiveMatrix( const float& fovy, const float& aspectRatio, const float& nearPlane, const float& farPlane ) override;
+		virtual Matrix4x4<> GetLookAtMatrix( const Vector3<>& eyePos, const Vector3<>& centerPos, const Vector3<>& upPos ) override;
+		virtual Matrix4x4<> GetOrthographicMatrix( const float& left, const float& right, const float& bottom, const float& top, const float& nearPlane, const float& farPlane ) override;
+
 	private:
 
-		std::map<unsigned int, std::vector< std::weak_ptr<Model> > > m_RenderMapByShaderID;
+		std::list< std::weak_ptr<Model> > m_RenderList;
 		GLFWwindow* m_Window;
 		double m_LastTime;
 		float m_DeltaTime;

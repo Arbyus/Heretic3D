@@ -9,13 +9,13 @@ namespace Heretic3D
 	{
 		public:
 		
-			virtual void SetShaderValue( const std::string& variableName, const Matrix4x4<float>& newValue ) = 0;
+			virtual void SetShaderValue( const std::string& variableName, const Matrix4x4<>& newValue ) = 0;
 			virtual void SetShaderValue( const std::string& variableName, const int& newValue ) = 0;
 			virtual void SetShaderValue( const std::string& variableName, const float& newValue ) = 0;
-			virtual void SetShaderValue( const std::string& variableName, const Vector2<float>& newValue ) = 0;
-			virtual void SetShaderValue( const std::string& variableName, const Vector3& newValue ) = 0;
-			virtual void SetShaderValue( const std::string& variableName, const Vector4<float>& newValue ) = 0;
-			virtual void SetShaderValue( const std::string& variableName, const Matrix3x3& newValue ) = 0;
+			virtual void SetShaderValue( const std::string& variableName, const Vector2<>& newValue ) = 0;
+			virtual void SetShaderValue( const std::string& variableName, const Vector3<>& newValue ) = 0;
+			virtual void SetShaderValue( const std::string& variableName, const Vector4<>& newValue ) = 0;
+			virtual void SetShaderValue( const std::string& variableName, const Matrix3x3<>& newValue ) = 0;
 			virtual unsigned int GetShaderID( ) = 0;
 
 	};

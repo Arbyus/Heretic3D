@@ -11,7 +11,7 @@ namespace Heretic3D
 		m_Pimpl = impl;
 	}
 
-	void Shader::SetShaderValue( const std::string & variableName, const Matrix4x4<float>& newValue )
+	void Shader::SetShaderValue( const std::string & variableName, const Matrix4x4<>& newValue )
 	{
 		m_Pimpl->SetShaderValue( variableName, newValue );
 	}
@@ -26,22 +26,22 @@ namespace Heretic3D
 		m_Pimpl->SetShaderValue( variableName, newValue );
 	}
 
-	void Shader::SetShaderValue( const std::string & variableName, const Vector2<float>& newValue )
+	void Shader::SetShaderValue( const std::string & variableName, const Vector2<>& newValue )
 	{
 		m_Pimpl->SetShaderValue( variableName, newValue );
 	}
 
-	void Shader::SetShaderValue( const std::string & variableName, const Vector3 & newValue )
+	void Shader::SetShaderValue( const std::string & variableName, const Vector3<> & newValue )
 	{
 		m_Pimpl->SetShaderValue( variableName, newValue );
 	}
 
-	void Shader::SetShaderValue( const std::string & variableName, const Vector4<float>& newValue )
+	void Shader::SetShaderValue( const std::string & variableName, const Vector4<>& newValue )
 	{
 		m_Pimpl->SetShaderValue( variableName, newValue );
 	}
 
-	void Shader::SetShaderValue( const std::string & variableName, const Matrix3x3 & newValue )
+	void Shader::SetShaderValue( const std::string & variableName, const Matrix3x3<> & newValue )
 	{
 		m_Pimpl->SetShaderValue( variableName, newValue );
 	}

@@ -23,7 +23,6 @@ namespace Heretic3D
 
 		// Draws the model, and thus all its meshes
 		HERETIC3D void Draw( const unsigned int shaderID );
-		HERETIC3D void SetupModel( std::weak_ptr<Model> modelToSetup );
 		HERETIC3D int CreateWindow( );
 		HERETIC3D Vector2<double> GetCursorPositionOnScreen( );
 		HERETIC3D bool WantsToClose( );
@@ -36,6 +35,10 @@ namespace Heretic3D
 		HERETIC3D unsigned int LoadTexture( const std::string& imagePath );
 
 		HERETIC3D void Cleanup( );
+
+		HERETIC3D Matrix4x4<float> GetPerspectiveMatrix( const float& fovy, const float& aspectRatio, const float& nearPlane, const float& farPlane );
+		HERETIC3D Matrix4x4<float> GetLookAtMatrix( const Vector3<>& eyePos, const Vector3<>& centerPos, const Vector3<>& upPos );
+		HERETIC3D Matrix4x4<float> GetOrthographicMatrix( const float& left, const float& right, const float& bottom, const float& top, const float& nearPlane, const float& farPlane );
 
 	private:
 

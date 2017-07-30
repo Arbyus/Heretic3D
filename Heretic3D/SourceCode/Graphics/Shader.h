@@ -19,13 +19,13 @@ namespace Heretic3D
 
 		HERETIC3D static std::function< std::shared_ptr< Shader >( const std::string& vertex, const std::string& fragment )> CreateShader;
 
-		HERETIC3D void SetShaderValue( const std::string& variableName, const Matrix4x4<float>& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const Matrix4x4<>& newValue );
 		HERETIC3D void SetShaderValue( const std::string& variableName, const int& newValue );
 		HERETIC3D void SetShaderValue( const std::string& variableName, const float& newValue );
-		HERETIC3D void SetShaderValue( const std::string& variableName, const Vector2<float>& newValue );
-		HERETIC3D void SetShaderValue( const std::string& variableName, const Vector3& newValue );
-		HERETIC3D void SetShaderValue( const std::string& variableName, const Vector4<float>& newValue );
-		HERETIC3D void SetShaderValue( const std::string& variableName, const Matrix3x3& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const Vector2<>& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const Vector3<>& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const Vector4<>& newValue );
+		HERETIC3D void SetShaderValue( const std::string& variableName, const Matrix3x3<>& newValue );
 		HERETIC3D unsigned int GetShaderID( );
 
 	private:

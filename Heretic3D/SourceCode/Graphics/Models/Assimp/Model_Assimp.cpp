@@ -6,13 +6,18 @@
 
 #include "../../Graphics.h"
 #include "../../Textures/Texture.h"
+#include "../../Shader.h"
+#include "../../../Maths/MatrixTransforms.h"
 
 #undef LoadImage
 
 namespace Heretic3D
 {
 
-	Model_Assimp::Model_Assimp( const std::string& path, const std::string& dire )
+	Model_Assimp::Model_Assimp( const std::string& path, const std::string& dire, const Vector3<>& position, const Vector3<>& scale, const Vector3<>& rotation )
+		: m_ModelPosition( position )
+		, m_ModelScale( scale )
+		, m_ModelRotate( rotation )
 	{
 		this->LoadModel( path, dire );
 	}
@@ -41,11 +46,29 @@ namespace Heretic3D
 		}
 	}
 
-	// Draws the model, and thus all its meshes
-	void Model_Assimp::Draw( unsigned int shaderID )
+	void Model_Assimp::SetPosition( const Vector3<>& newPosition )
 	{
-		//for ( GLuint i = 0; i < this->meshes.size( ); i++ )
-		//	this->meshes[ i ].Draw( shaderID );
+		m_ModelPosition = newPosition;
+	}
+
+	void Model_Assimp::SetRotation( const Vector3<>& newRotation )
+	{
+		m_ModelRotate = newRotation;
+	}
+
+	void Model_Assimp::SetScale( const Vector3<>& newScale )
+	{
+		m_ModelScale = newScale;
+	}
+
+	void Model_Assimp::SetShader( std::weak_ptr<Shader> newShader )
+	{
+		m_ShaderUsing = newShader;
+	}
+
+	std::weak_ptr<Shader> Model_Assimp::GetShader( )
+	{
+		return m_ShaderUsing;
 	}
 
 	void Model_Assimp::LoadModel( const std::string& path, const std::string& dirr )
@@ -68,7 +91,7 @@ namespace Heretic3D
 		this->ProcessNode( scene->mRootNode, scene );
 	}
 
-	std::vector<Mesh> Model_Assimp::GetMesh( )
+	std::vector<Mesh>& Model_Assimp::GetMesh( )
 	{
 		return meshes;
 	}
@@ -112,7 +135,7 @@ namespace Heretic3D
 		for ( unsigned int i = 0; i < mesh->mNumVertices; i++ )
 		{
 			Vertex vertex;
-			Vector3 vector; // We declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
+			Vector3<> vector; // We declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
 			// Positions
 			vector.x = mesh->mVertices[ i ].x;
 			vector.y = mesh->mVertices[ i ].y;
@@ -159,4 +182,14 @@ namespace Heretic3D
 		// Return a mesh object created from the extracted mesh data
 		return Mesh( vertices, indices, textures );
 	}
+
+	void Model_Assimp::SetShaderVars( )
+	{
+		auto model = Heretic3D::Matrix4x4<float>( 1.0f );
+		model = Heretic3D::Translate( model, m_ModelPosition );
+		model = Heretic3D::Scale( model, m_ModelScale );
+
+		m_ShaderUsing.lock()->SetShaderValue( "model", model );
+	}
+
 }

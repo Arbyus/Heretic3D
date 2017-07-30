@@ -13,9 +13,9 @@ namespace Heretic3D
 
 	struct Vertex 
 	{
-		Vector3 Position;
-		Vector3 Normal;
-		Vector2<float> TexCoords;
+		Vector3<> Position;
+		Vector3<> Normal;
+		Vector2<> TexCoords;
 	};
 
 	struct TextureStruct

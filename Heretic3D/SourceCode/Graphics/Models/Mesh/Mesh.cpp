@@ -26,6 +26,11 @@ namespace Heretic3D
 		this->m_ModelPack.textures = newVec;
 	}
 
+	void Mesh::SetBufferInformation( const BufferInformation& bufferInfo )
+	{
+		m_ModelBufferInfo = bufferInfo;
+	}
+
 	BufferInformation& Mesh::GetBufferInformation( )
 	{
 		return m_ModelBufferInfo;

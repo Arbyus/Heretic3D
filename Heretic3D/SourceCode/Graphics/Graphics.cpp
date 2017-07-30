@@ -16,11 +16,6 @@ namespace Heretic3D
 	{
 		m_Pimpl->Draw( shaderID );
 	}
-	
-	void Graphics::SetupModel( std::weak_ptr<Model> modelToSetup )
-	{
-		m_Pimpl->SetupModel( modelToSetup,0 );
-	}
 
 	int Graphics::CreateWindow( )
 	{
@@ -60,6 +55,21 @@ namespace Heretic3D
 	void Graphics::Cleanup( )
 	{
 		m_Pimpl->Cleanup( );
+	}
+
+	Matrix4x4<> Graphics::GetPerspectiveMatrix( const float & fovy, const float & aspectRatio, const float & nearPlane, const float & farPlane )
+	{
+		return m_Pimpl->GetPerspectiveMatrix( fovy, aspectRatio, nearPlane, farPlane );
+	}
+
+	HERETIC3D Matrix4x4<> Graphics::GetLookAtMatrix( const Vector3<> & eyePos, const Vector3<> & centerPos, const Vector3<> & upPos )
+	{
+		return m_Pimpl->GetLookAtMatrix( eyePos, centerPos, upPos );
+	}
+
+	HERETIC3D Matrix4x4<> Graphics::GetOrthographicMatrix( const float & left, const float & right, const float & bottom, const float & top, const float & nearPlane, const float & farPlane )
+	{
+		return m_Pimpl->GetOrthographicMatrix( left, right, bottom, top, nearPlane, farPlane );
 	}
 
 }

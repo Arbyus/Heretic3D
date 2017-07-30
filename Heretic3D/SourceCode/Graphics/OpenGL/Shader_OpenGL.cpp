@@ -1,4 +1,3 @@
-#include <glm/glm.hpp>
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
@@ -84,10 +83,21 @@ namespace Heretic3D
 		glDeleteShader( fragment );
 
 	}
-	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const Matrix4x4<float>& newValue )
+	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const Matrix4x4<>& newValue )
 	{
-		glUniformMatrix4fv( glGetUniformLocation( m_ShaderID, variableName.c_str() ) , 1, GL_FALSE, &newValue.r1.x );
-	}
+		glUseProgram( m_ShaderID );
+
+		const auto shaderConstantLocation = glGetUniformLocation( m_ShaderID, variableName.c_str( ) );
+
+		glm::mat4 sendIt( newValue.c1.x, newValue.c1.y, newValue.c1.z, newValue.c1.w,
+				newValue.c2.x, newValue.c2.y, newValue.c2.z, newValue.c2.w,
+				newValue.c3.x, newValue.c3.y, newValue.c3.z, newValue.c3.w,
+				newValue.c4.x, newValue.c4.y, newValue.c4.z, newValue.c4.w );
+
+		holdMats[ shaderConstantLocation ] = sendIt;
+
+		glUniformMatrix4fv( shaderConstantLocation, 1, GL_FALSE, &holdMats.at( shaderConstantLocation )[ 0 ][ 0 ] );
+	} 
 
 	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const int & newValue )
 	{
@@ -99,24 +109,24 @@ namespace Heretic3D
 		glUniform1f( glGetUniformLocation( m_ShaderID, variableName.c_str( ) ), newValue );
 	}
 
-	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const Vector2<float>& newValue )
+	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const Vector2<>& newValue )
 	{
 		glUniform2fv( glGetUniformLocation( m_ShaderID, variableName.c_str( ) ), 1, glm::value_ptr( glm::vec2( newValue.x, newValue.y) ) );
 	}
 
-	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const Vector3 & newValue )
+	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const Vector3<> & newValue )
 	{
 		glUniform3fv( glGetUniformLocation( m_ShaderID, variableName.c_str( ) ), 1, glm::value_ptr( glm::vec3( newValue.x, newValue.y, newValue.z ) ) );
 	}
 
-	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const Vector4<float>& newValue )
+	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const Vector4<>& newValue )
 	{
 		glUniform4fv( glGetUniformLocation( m_ShaderID, variableName.c_str( ) ), 1, glm::value_ptr( glm::vec4( newValue.x,newValue.y, newValue.z, newValue.w ) ) );
 	}
 
-	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const Matrix3x3 & newValue )
+	void Shader_OpenGL::SetShaderValue( const std::string & variableName, const Matrix3x3<> & newValue )
 	{
-		glUniformMatrix3fv( glGetUniformLocation( m_ShaderID, variableName.c_str( ) ), 1, GL_FALSE, &newValue.r1.x );
+		glUniformMatrix3fv( glGetUniformLocation( m_ShaderID, variableName.c_str( ) ), 1, GL_FALSE, &newValue.c1.x );
 	}
 
 	unsigned int Shader_OpenGL::GetShaderID( )

@@ -26,7 +26,6 @@ namespace Heretic3D
 		HERETIC3D ImplementationDirector( const ImplementationDetails& impl );
 		HERETIC3D void DrawShaderBatch( const unsigned int shaderId );
 		HERETIC3D std::shared_ptr<Graphics> GetGraphicsDevice( );
-		HERETIC3D std::shared_ptr<Model> GetModel( const std::string& path, const std::string& dire, const int shaderID );
 
 
 	};

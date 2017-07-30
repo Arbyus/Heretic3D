@@ -15,9 +15,10 @@ namespace Heretic3D
 	{
 		std::shared_ptr<Graphics_interface> graphicsImpl;
 
-		static std::shared_ptr<Heretic3D::Model> AssimpModels( const std::string& path, const std::string& dire, const int shaderID )
+		static std::shared_ptr<Heretic3D::Model> AssimpModels( const std::string& path, const std::string& dire, std::weak_ptr<Shader> shaderID,
+			const Vector3<>& position, const Vector3<>& scale, const Vector3<>& rotation )
 		{
-			auto assimpObj = std::make_shared<Heretic3D::Model_Assimp>( path, dire );
+			auto assimpObj = std::make_shared<Heretic3D::Model_Assimp>( path, dire, position, scale, rotation );
 
 			auto newModel = std::make_shared<Heretic3D::Model>( assimpObj );
 
@@ -43,7 +44,8 @@ namespace Heretic3D
 		
 		void SetupAssimp( )
 		{
-			Heretic3D::Model::CreateModel = std::bind( &Heretic3D::AssimpModels, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3 );
+			Heretic3D::Model::CreateModel = std::bind( &Heretic3D::AssimpModels, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
+				std::placeholders::_4, std::placeholders::_5, std::placeholders::_6 );
 		}
 
 		void SetupGraphics( )
@@ -85,11 +87,6 @@ namespace Heretic3D
 	std::shared_ptr<Graphics> ImplementationDirector::GetGraphicsDevice( )
 	{
 		return std::make_shared<Graphics>(graphicsImpl);
-	}
-
-	std::shared_ptr<Model> ImplementationDirector::GetModel( const std::string & path, const std::string & dire, const int shaderID )
-	{
-		return Heretic3D::Model::CreateModel( path, dire, shaderID );
 	}
 
 }
